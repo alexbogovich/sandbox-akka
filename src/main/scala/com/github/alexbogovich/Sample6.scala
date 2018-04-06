@@ -1,29 +1,28 @@
 package com.github.alexbogovich
 
-import java.nio.file.Paths
-
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream._
 import akka.stream.scaladsl._
-import akka.util.ByteString
-
-import scala.concurrent._
-import scala.concurrent.duration._
+import com.github.alexbogovich.common._
 
 
 object Sample6 extends App {
-  final case class Author(handle: String)
-
-  final case class Hashtag(name: String)
-
-  final case class Tweet(author: Author, timestamp: Long, body: String) {
-    def hashtags: Set[Hashtag] = body.split(" ").collect {
-      case t if t.startsWith("#") ⇒ Hashtag(t.replaceAll("[^#\\w]", ""))
-    }.toSet
-  }
-
   val akkaTag = Hashtag("#akka")
 
+  implicit val system = ActorSystem("reactive-tweets")
+  implicit val materializer = ActorMaterializer()
+  val tweets: Source[Tweet, NotUsed] = Source(Data.tweetList)
 
+  val authors: Source[Author, NotUsed] =
+    tweets
+      .filter(_.hashtags.contains(akkaTag))
+      .map(_.author)
+  val hashtags: Source[Hashtag, NotUsed] = tweets.mapConcat(_.hashtags.toList)
+
+  val resultAuthors = authors.runForeach(println)
+  val resultHashTag = hashtags.runForeach(println)
+
+  implicit val ec = system.dispatcher
+  resultAuthors.zip(resultHashTag).onComplete(_ ⇒ system.terminate())
 }
