@@ -5,6 +5,15 @@ import akka.actor.ActorSystem
 import akka.stream._
 import akka.stream.scaladsl._
 
+/*              f2
+*               -
+*     f1      /   \      f3
+*  in -> bcast     merge -> out
+*             \   /
+*               -
+*               f4
+* */
+
 object GraphExample1 extends App {
 
   implicit val system = ActorSystem("graphs")
