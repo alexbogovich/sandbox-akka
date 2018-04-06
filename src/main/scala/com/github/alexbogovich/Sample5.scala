@@ -29,7 +29,7 @@ object Sample5 extends App {
     factorials
       .zipWith(Source(0 to 100))((num, idx) ⇒ s"$idx! = $num")
       .throttle(1, 1.second, 1, ThrottleMode.shaping)
-      .runForeach(println)(materializer)
+      .runForeach(println)
 
   implicit val ec = system.dispatcher
   result.onComplete(_ ⇒ system.terminate())

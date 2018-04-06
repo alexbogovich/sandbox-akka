@@ -16,7 +16,7 @@ object Sample1 extends App {
 
   val source: Source[Int, NotUsed] = Source(1 to 100)
 
-  val done: Future[Done] = source.runForeach(i ⇒ println(i))(materializer)
+  val done: Future[Done] = source.runForeach(i ⇒ println(i))
 
   implicit val ec = system.dispatcher
   done.onComplete(_ ⇒ system.terminate())
