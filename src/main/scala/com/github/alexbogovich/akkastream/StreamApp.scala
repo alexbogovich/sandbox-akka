@@ -1,15 +1,14 @@
-package com.github.alexbogovich
+package com.github.alexbogovich.akkastream
 
-import java.io.File
-import java.util.concurrent.{ExecutorService, Executors}
+import java.nio.file.Paths
 
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream._
-import akka.stream.scaladsl._
+import akka.stream.scaladsl.{Broadcast, FileIO, Flow, GraphDSL, Keep, RunnableGraph, Sink, Source}
 import akka.util.ByteString
 
-import scala.concurrent._
+import scala.concurrent.Future
 import scala.concurrent.duration._
 
 object StreamApp {
@@ -18,7 +17,7 @@ object StreamApp {
     Flow[String]
       .alsoTo(Sink.foreach(s => println(s"$filename: $s")))
       .map(s => ByteString(s + "\n"))
-      .toMat(FileIO.toFile(new File(filename)))(Keep.right)
+      .toMat(FileIO.toPath(Paths.get(filename)))(Keep.right)
   }
 
   def main(args: Array[String]): Unit = {

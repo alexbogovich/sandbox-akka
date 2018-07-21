@@ -1,14 +1,14 @@
-package com.github.alexbogovich
+package com.github.alexbogovich.akkastream
 
 import java.nio.file.Paths
 
+import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream._
-import akka.stream.scaladsl._
+import akka.stream.scaladsl.{FileIO, Source}
+import akka.stream.{ActorMaterializer, IOResult}
 import akka.util.ByteString
-import akka.{Done, NotUsed}
 
-import scala.concurrent._
+import scala.concurrent.Future
 
 object Sample2 extends App {
   implicit val system = ActorSystem("QuickStart")

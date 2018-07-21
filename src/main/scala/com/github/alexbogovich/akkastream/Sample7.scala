@@ -1,13 +1,12 @@
-package com.github.alexbogovich
+package com.github.alexbogovich.akkastream
 
-import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
-import akka.stream._
-import akka.stream.scaladsl._
-import com.github.alexbogovich.common._
+import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Source}
+import akka.stream.{ActorMaterializer, ClosedShape}
+import akka.{Done, NotUsed}
+import com.github.alexbogovich.akkastream.common.{Author, Data, Hashtag, Tweet}
 
 import scala.concurrent.Future
-
 
 object Sample7 extends App {
   val akkaTag = Hashtag("#akka")

@@ -1,10 +1,10 @@
-package com.github.alexbogovich
+package com.github.alexbogovich.akkastream
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream._
-import akka.stream.scaladsl._
-import com.github.alexbogovich.common._
+import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.{Sink, Source}
+import com.github.alexbogovich.akkastream.common.{Data, Hashtag, Tweet}
 
 object Sample3 extends App {
   val akkaTag = Hashtag("#akka")

@@ -1,4 +1,4 @@
-package com.github.alexbogovich.core.graph
+package com.github.alexbogovich.akkastream.core.graph
 
 import akka.NotUsed
 import akka.actor.ActorSystem

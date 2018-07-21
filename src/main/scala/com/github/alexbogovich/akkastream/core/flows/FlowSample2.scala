@@ -1,16 +1,15 @@
-package com.github.alexbogovich.core.flows
+package com.github.alexbogovich.akkastream.core.flows
 
-import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, ThrottleMode}
+import akka.stream.ActorMaterializer
 import akka.stream.scaladsl._
-import com.github.alexbogovich.core.flows.FlowSample2.{sum, system}
+import com.github.alexbogovich.akkastream.core.flows.FlowSample3.{result, system}
 
 import scala.concurrent._
 import scala.util.{Failure, Success}
 
 
-object FlowSample1 extends App {
+object FlowSample2 extends App {
 
   implicit val system = ActorSystem("QuickStart")
   implicit val materializer = ActorMaterializer()
@@ -18,13 +17,11 @@ object FlowSample1 extends App {
   val source = Source(1 to 10)
   val sink = Sink.fold[Int, Int](0)(_ + _)
 
-  // connect the Source to the Sink, obtaining a RunnableGraph
-  val runnable: RunnableGraph[Future[Int]] = source.toMat(sink)(Keep.right)
-
-  // materialize the flow and get the value of the FoldSink
-  val sum: Future[Int] = runnable.run()
+  // materialize the flow, getting the Sinks materialized value
+  val sum: Future[Int] = source.runWith(sink)
 
   implicit val ec = system.dispatcher
+
   sum.onComplete({
     case Success(x) =>
       println(s"\nresult = $x")
@@ -33,5 +30,4 @@ object FlowSample1 extends App {
       e.printStackTrace
       system.terminate()
   })
-
 }

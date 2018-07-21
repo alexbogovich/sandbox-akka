@@ -1,4 +1,4 @@
-package com.github.alexbogovich.core.flows
+package com.github.alexbogovich.akkastream.core.flows
 
 import akka.NotUsed
 import akka.actor.ActorSystem

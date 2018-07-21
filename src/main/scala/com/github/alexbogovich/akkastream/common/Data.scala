@@ -1,4 +1,4 @@
-package com.github.alexbogovich.common
+package com.github.alexbogovich.akkastream.common
 
 import java.lang.System.currentTimeMillis
 
