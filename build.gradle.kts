@@ -1,5 +1,6 @@
 plugins {
     scala
+    id("com.gradle.build-scan") version "1.15.1"
 }
 
 group = "com.github.alexbogovich"
@@ -21,4 +22,8 @@ dependencies {
 task<Wrapper>("wrapper") {
     gradleVersion = "4.9"
     distributionType = Wrapper.DistributionType.ALL
+}
+
+buildScan {
+    setTermsOfServiceAgree("yes")
 }
