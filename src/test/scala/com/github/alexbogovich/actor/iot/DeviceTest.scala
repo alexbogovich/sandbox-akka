@@ -6,6 +6,8 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
+import scala.concurrent.duration._
+
 
 @RunWith(classOf[JUnitRunner])
 class DeviceTest extends TestKit(ActorSystem("MySpec")) with ImplicitSender
@@ -46,5 +48,25 @@ class DeviceTest extends TestKit(ActorSystem("MySpec")) with ImplicitSender
     val response2 = probe.expectMsgType[Device.RespondTemperature]
     response2.requestId should ===(4)
     response2.value should ===(Some(55.0))
+  }
+
+  "reply to registration requests" in {
+    val probe = TestProbe()
+    val deviceActor = system.actorOf(Device.props("group", "device"))
+
+    deviceActor.tell(DeviceManager.RequestTrackDevice("group", "device"), probe.ref)
+    probe.expectMsg(DeviceManager.DeviceRegistered)
+    probe.lastSender should ===(deviceActor)
+  }
+
+  "ignore wrong registration requests" in {
+    val probe = TestProbe()
+    val deviceActor = system.actorOf(Device.props("group", "device"))
+
+    deviceActor.tell(DeviceManager.RequestTrackDevice("wrongGroup", "device"), probe.ref)
+    probe.expectNoMessage(500.milliseconds)
+
+    deviceActor.tell(DeviceManager.RequestTrackDevice("group", "Wrongdevice"), probe.ref)
+    probe.expectNoMessage(500.milliseconds)
   }
 }
