@@ -19,10 +19,11 @@ dependencies {
 
     testCompile ("org.scalatest:scalatest_2.12:3.0.5")
     testCompile ("com.typesafe.akka:akka-stream-testkit_2.12:2.5.14")
+    testCompile ("com.typesafe.akka:akka-actor-testkit-typed_2.12:2.5.14")
     testCompile ("junit:junit:4.12")
 }
 
-task<Wrapper>("wrapper") {
+tasks.withType<Wrapper> {
     gradleVersion = "4.9"
     distributionType = Wrapper.DistributionType.ALL
 }
