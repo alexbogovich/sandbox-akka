@@ -13,6 +13,7 @@ repositories {
 dependencies {
     compile("org.scala-lang:scala-library:2.12.6")
     compile("com.typesafe.akka:akka-stream_2.12:2.5.14")
+    compile("com.typesafe.akka:akka-stream-typed_2.12:2.5.14")
     compile("com.typesafe.akka:akka-actor-typed_2.12:2.5.14")
     compile("com.typesafe.akka:akka-http_2.12:10.1.3")
     compile("com.typesafe.akka:akka-http-spray-json_2.12:10.1.3")
