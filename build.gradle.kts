@@ -26,7 +26,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.2.0")
 }
 
-tasks.run {
+tasks {
     withType<Wrapper> {
         gradleVersion = "4.9"
         distributionType = Wrapper.DistributionType.ALL
